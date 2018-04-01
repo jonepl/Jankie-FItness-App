@@ -1,6 +1,6 @@
-# JANKIE WORKOUT ROUTINE TO MUSCLE GROUPING APP 😂
+# JANKIE FITNESS APP 😂
 
-## Descriptions: Shows the muscles groups that are being utilized when working doing workouts.
+## Description: Client-side Application that shows the muscles groups that are being utilized for each exercise in a workout routine.
 
 Have fun lol.
 
