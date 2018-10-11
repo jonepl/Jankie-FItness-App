@@ -3,75 +3,83 @@ var app = angular.module("myWorkOutApp", []);
 app.controller('mycontroller', ['$scope', function($scope) {
 
     //https://stackoverflow.com/questions/31622770/how-to-import-json-file-into-angularjs-application
-    var validExercises = { 
-        'Barbell Squats' : ["Hamstrings", "Quadriceps", "Glutes"], 
-        "Bench Press" : ["Chest", "Triceps"], 
-        "Barbell Curls" : ["Biceps"], 
-        "Barbell Rows" : ["Biceps"],
-        'Upright rows' : ["Deltoids", "Trapezius"],
-        'Leg curls' : ["Hamstrings"],
-        'Skull Crusher' : ["Triceps"],
-        'Barbell Deadlift' : ["Hamstrings", "Quadriceps", "Glutes", "Trapezius", "Core"],
-        'Bent-over barbell rows' : ["Back"],
-        'Calf Raieses' : ["Calves"],
-        'Dumbbell Press': ["Deltoids"]
-    }
+    // var validExercises = { 
+    //     'Barbell Squats' : ["Hamstrings", "Quadriceps", "Glutes"], 
+    //     "Bench Press" : ["Chest", "Triceps"], 
+    //     "Barbell Curls" : ["Biceps"], 
+    //     "Barbell Rows" : ["Biceps"],
+    //     'Upright rows' : ["Deltoids", "Trapezius"],
+    //     'Leg curls' : ["Hamstrings"],
+    //     'Skull Crusher' : ["Triceps"],
+    //     'Barbell Deadlift' : ["Hamstrings", "Quadriceps", "Glutes", "Trapezius", "Core"],
+    //     'Bent-over barbell rows' : ["Back"],
+    //     'Calf Raieses' : ["Calves"],
+    //     'Dumbbell Press': ["Deltoids"]
+    // }
 
-    $scope.exercises = [];
-    $scope.muscleGroups = {};
-    $scope.validExercises = validExercises
+    var exercises = [
+        { 'name' : 'Incline Barbell or Dumbbell Bench Press', 'primary' :  {'chest' : ['Sternal'] }, 'secondary' : { 'shoulder' : ['Anterior Deltoid'], 'Triceps': ['Long Head'] } },
+        { 'name' : 'Decline Barbell or Dumbbell Bench Press', 'primary' :  {'chest' : []}, 'secondary' : [ { 'muscle group' : []} ] },
+        { 'name' : 'Flat Press Machine', 'primary' :  {'chest' : []}, 'secondary' : [ { 'muscle group' : []} ] },
+        { 'name' : 'Incline Press Machine', 'primary' :  {'chest' : []}, 'secondary' : [ { 'muscle group' : []} ] },
+        { 'name' : 'Decline Press Machine', 'primary' :  {'chest' : []}, 'secondary' : [ { 'muscle group' : []} ] },
+        { 'name' : 'Dips', 'primary' :  {'chest' : []}, 'secondary' : [ { 'muscle group' : []} ] },
+        { 'name' : 'Push-Ups', 'primary' :  {'chest' : []}, 'secondary' : [ { 'muscle group' : []} ] },
+        { 'name' : 'Flat Dumbbell Flyes', 'primary' :  {'chest' : []}, 'secondary' : [ { 'muscle group' : []} ] },
+        { 'name' : 'Incline Dumbbell Flyes', 'primary' :  {'chest' : []}, 'secondary' : [ { 'muscle group' : []} ] },
+        { 'name' : 'Decline Dumbbell Flyes', 'primary' :  {'chest' : []}, 'secondary' : [ { 'muscle group' : []} ] },
+        { 'name' : 'Pec Deck Machine', 'primary' :  {'chest' : []}, 'secondary' : [ { 'muscle group' : []} ] },
+        { 'name' : 'Cable Crossovers/Cable Flyes', 'primary' :  {'chest' : []}, 'secondary' : [ { 'muscle group' : []} ]}]
 
-    $scope.add = function(ex) {
-        var newExercise = { 'name' : ex, 'done' : false };
-        var result = isNew(newExercise);
-        if(result) {
-            $scope.exercises.push(newExercise);
-            $scope.newExercise = '';
+    // var workouts;
+    // var routine;
 
-            if(isValid(newExercise.name)) {
-                var muscleGroup = validExercises[newExercise.name];
-                addMuscleGroup(muscleGroup);
-            }
-        }
-        console.log(ex);
-    }
+    //$scope.workouts = [];
+    $scope.viewMuscleGroups = [];
+    //$scope.viewExercises = [];
+    $scope.viewWorkouts = [];
+    //$scope.validExercises = validExercises;
+    $scope.viewExercises = exercises;
 
-    $scope.addExercise = function() {
+    // TODO: Validate new exercise
+    $scope.add = function(exercise) {
         
-        var newExercise = { 'name' : $scope.newExercise, 'done' : false };
-        var result = isNew(newExercise);
-        console.log(result);
-        if(result) {
-            $scope.exercises.push(newExercise);
-            $scope.newExercise = '';
+        exercise.done = false;
+        if(isNew(exercise)) {
+            console.log("It's new mofo");
+            $scope.viewWorkouts.push(exercise);
+            // $scope.newExercise = '';
+            addMuscleGroup(exercise);
+        }
+    }
 
-            if(isValid(newExercise.name)) {
-                var muscleGroup = validExercises[newExercise.name];
-                addMuscleGroup(muscleGroup);
-            }
+    // TODO Fix this to handle whole exercises
+    function addMuscleGroup(exercise) {
+        // Iterate through the object
+
+        $scope.viewMuscleGroups = $scope.viewMuscleGroups.concat(Object.values(exercise.primary))
+        $scope.viewMuscleGroups = $scope.viewMuscleGroups.concat(Object.values(exercise.secondary))
+
+        // if exercise.name is not in workouts add it
+        if(exercise.name in $scope.viewExercises) {
+            console.log("Seen this already");
+            
         }
     }
 
     $scope.deleteExercise = function(index) {
         
-        var exercise = $scope.exercises[index].name;
-        $scope.exercises.splice(index, 1);
+        var muscleGroups = [];
+        var exercise = $scope.viewWorkouts[index];
+        $scope.viewWorkouts.splice(index, 1);
 
-        if(isValid(exercise)) {
-            var muscleGroup = validExercises[exercise]
-            deleteMuscleGroup(muscleGroup);
-        }
+        muscleGroups = muscleGroups.concat(Object.values(exercise.primary))
+        muscleGroups = muscleGroups.concat(Object.values(exercise.secondary))
+        deleteMuscleGroup(muscleGroups);
+        // if(isValid(exercise)) {
+  
+        // }
         
-    }
-
-    function addMuscleGroup(muscleGroups) {
-        muscleGroups.forEach(muscleGroup => {
-            if( !(muscleGroup in $scope.muscleGroups) ) {            
-                $scope.muscleGroups[muscleGroup] = 1;
-            } else {
-                $scope.muscleGroups[muscleGroup] = $scope.muscleGroups[muscleGroup] + 1;
-            }
-        });
     }
 
     function deleteMuscleGroup(muscleGroups) {
@@ -88,10 +96,12 @@ app.controller('mycontroller', ['$scope', function($scope) {
         else return false;
     }
 
-    function isNew(exercise) {
-        
-        if(exercise in $scope.exercises) return false;
-        else return true;
+    function isNew(ex) {
 
+        for (let index = 0; index < $scope.viewWorkouts.length; index++) {
+            if($scope.viewWorkouts[index] === ex) return false;
+        }
+
+        return true;
     }
 }]);
