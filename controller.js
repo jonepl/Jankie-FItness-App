@@ -1,24 +1,20 @@
+/*
+    * TODO: Figure out how to fill in all primary secondary view buttons accordingly (muscle part name and muscle group)
+    * TODO: Consider changing tooltip to hover box with with muscle group
+    * TODO: Removed from saved workouts
+    * TODO: Edit from saved workouts
+    * TODO: Make button more functional
+    * TODO: Make page more appealing
+*/
+
 var app = angular.module("myWorkOutApp", []);
 
 app.controller('mycontroller', ['$scope', function($scope) {
 
     //https://stackoverflow.com/questions/31622770/how-to-import-json-file-into-angularjs-application
-    // var validExercises = { 
-    //     'Barbell Squats' : ["Hamstrings", "Quadriceps", "Glutes"], 
-    //     "Bench Press" : ["Chest", "Triceps"], 
-    //     "Barbell Curls" : ["Biceps"], 
-    //     "Barbell Rows" : ["Biceps"],
-    //     'Upright rows' : ["Deltoids", "Trapezius"],
-    //     'Leg curls' : ["Hamstrings"],
-    //     'Skull Crusher' : ["Triceps"],
-    //     'Barbell Deadlift' : ["Hamstrings", "Quadriceps", "Glutes", "Trapezius", "Core"],
-    //     'Bent-over barbell rows' : ["Back"],
-    //     'Calf Raieses' : ["Calves"],
-    //     'Dumbbell Press': ["Deltoids"]
-    // }
 
     var exercises = [
-        { 'name' : 'Incline Barbell or Dumbbell Bench Press', 'primary' :  {'chest' : ['Sternal'] }, 'secondary' : { 'shoulder' : ['Anterior Deltoid'], 'Triceps': ['Long Head'] } },
+        { 'name' : 'Incline Barbell or Dumbbell Bench Press', 'primary' :  {'chest' : ['Pectoralis Major', 'Pectoralis Minor'] }, 'secondary' : { 'shoulders' : ['Anterior Deltoid'], 'Triceps': ['Long Head'], 'chest' : ['another'] } },
         { 'name' : 'Decline Barbell or Dumbbell Bench Press', 'primary' :  {'chest' : []}, 'secondary' : [ { 'muscle group' : []} ] },
         { 'name' : 'Flat Press Machine', 'primary' :  {'chest' : []}, 'secondary' : [ { 'muscle group' : []} ] },
         { 'name' : 'Incline Press Machine', 'primary' :  {'chest' : []}, 'secondary' : [ { 'muscle group' : []} ] },
@@ -31,77 +27,55 @@ app.controller('mycontroller', ['$scope', function($scope) {
         { 'name' : 'Pec Deck Machine', 'primary' :  {'chest' : []}, 'secondary' : [ { 'muscle group' : []} ] },
         { 'name' : 'Cable Crossovers/Cable Flyes', 'primary' :  {'chest' : []}, 'secondary' : [ { 'muscle group' : []} ]}]
 
-    // var workouts;
-    // var routine;
-
-    //$scope.workouts = [];
-    $scope.viewMuscleGroups = [];
-    //$scope.viewExercises = [];
-    $scope.viewWorkouts = [];
-    //$scope.validExercises = validExercises;
+    $scope.allWorkouts = [];
     $scope.viewExercises = exercises;
+    $scope.newWorkout = [];
+    $scope.workoutDetails = $scope.newWorkout;
+    $scope.savedWorkouts = [];
 
-    // TODO: Validate new exercise
-    $scope.add = function(exercise) {
-        
+    // Adds a new exercise to users new workout list
+    $scope.addExercise = function(exercise) {
         exercise.done = false;
         if(isNew(exercise)) {
-            console.log("It's new mofo");
-            $scope.viewWorkouts.push(exercise);
-            // $scope.newExercise = '';
-            addMuscleGroup(exercise);
+            $scope.newWorkout.push(exercise);
         }
     }
 
-    // TODO Fix this to handle whole exercises
-    function addMuscleGroup(exercise) {
-        // Iterate through the object
+    // Removes new exercise from your new workout list
+    $scope.deleteExercise = function(index) {     
+        $scope.newWorkout.splice(index, 1);
+    }
 
-        $scope.viewMuscleGroups = $scope.viewMuscleGroups.concat(Object.values(exercise.primary))
-        $scope.viewMuscleGroups = $scope.viewMuscleGroups.concat(Object.values(exercise.secondary))
-
-        // if exercise.name is not in workouts add it
-        if(exercise.name in $scope.viewExercises) {
-            console.log("Seen this already");
-            
+    // Change to handle workout name instead of list of workouts
+    $scope.addToSavedWorkouts = function() {
+        workoutName = "Workout " + ($scope.savedWorkouts.length + 1);
+        if($scope.newWorkout.length > 0) {
+            $scope.savedWorkouts.push({ 'name' : workoutName, 'workout' : $scope.newWorkout });
+            $scope.newWorkout = [];
         }
     }
 
-    $scope.deleteExercise = function(index) {
-        
-        var muscleGroups = [];
-        var exercise = $scope.viewWorkouts[index];
-        $scope.viewWorkouts.splice(index, 1);
-
-        muscleGroups = muscleGroups.concat(Object.values(exercise.primary))
-        muscleGroups = muscleGroups.concat(Object.values(exercise.secondary))
-        deleteMuscleGroup(muscleGroups);
-        // if(isValid(exercise)) {
-  
-        // }
-        
+    // Sets workout details to selected workout
+    $scope.setWorkoutDetails = function(index) { 
+        var workouts = $scope.savedWorkouts[index];
+        $scope.workoutDetails = workouts.workout;
     }
 
-    function deleteMuscleGroup(muscleGroups) {
-        muscleGroups.forEach(muscleGroup => {
-            $scope.muscleGroups[muscleGroup] = $scope.muscleGroups[muscleGroup] - 1;
-            if($scope.muscleGroups[muscleGroup] == 0) delete $scope.muscleGroups[muscleGroup];
-        })
-        
-    }
-
-    function isValid(exercise) {
-
-        if(exercise in validExercises) return true;
-        else return false;
-    }
-
-    function isNew(ex) {
-
-        for (let index = 0; index < $scope.viewWorkouts.length; index++) {
-            if($scope.viewWorkouts[index] === ex) return false;
+    // Determine if the exercise exists within newWorkout list
+    function isNew(exercise) {
+        for (let index = 0; index < $scope.newWorkout.length; index++) {
+            if($scope.newWorkout[index] === exercise) return false;
         }
-
         return true;
+    }
+
+    $scope.getClass = function (exercise, musclePart, muscleGroup) {
+        console.log(exercise)
+        if('chest' == muscleGroup) {
+            return exercise.primary.chest.includes('Pectoralis Minor') ? 'primary' : (exercise.secondary.chest.includes('Pectoralis Minor') ? 'secondary' : '')
+        } else if('shoulders' == muscleGroup) {
+            return exercise.primary.shoulders.includes(musclePart) ? 'primary' : (exercise.secondary.shoulders.includes(musclePart) ? 'secondary' : '')
+        }
+        
     }
 }]);
