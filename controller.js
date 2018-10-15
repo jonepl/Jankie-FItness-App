@@ -70,12 +70,16 @@ app.controller('mycontroller', ['$scope', function($scope) {
     }
 
     $scope.getClass = function (exercise, musclePart, muscleGroup) {
-        console.log(exercise)
-        if('chest' == muscleGroup) {
-            return exercise.primary.chest.includes('Pectoralis Minor') ? 'primary' : (exercise.secondary.chest.includes('Pectoralis Minor') ? 'secondary' : '')
-        } else if('shoulders' == muscleGroup) {
-            return exercise.primary.shoulders.includes(musclePart) ? 'primary' : (exercise.secondary.shoulders.includes(musclePart) ? 'secondary' : '')
-        }
-        
+
+        console.log(exercise);
+        if(exercise.primary.hasOwnProperty(muscleGroup)) {
+            if(exercise.primary[muscleGroup].includes(musclePart)) {
+                return 'primary';
+            }
+        } else if(exercise.secondary.hasOwnProperty(muscleGroup)) {
+            if(exercise.secondary[muscleGroup].includes(musclePart)) {
+                return 'secondary';
+            }
+        }        
     }
 }]);
