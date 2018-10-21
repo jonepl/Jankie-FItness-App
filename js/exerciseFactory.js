@@ -1,21 +1,66 @@
 var app = angular.module("exerciseModule", []);
 
-app.factory('ExerciseFactory', function() {
-
+app.factory('ExerciseFactory', ['MuscleFactory', function(MuscleFactory) {
+    console.log(MuscleFactory)
+    var muscleGroups = MuscleFactory;
+    // Update to primary, secondary, tertiary Muscles
     var exercises = [
-            { 'name' : 'Incline Barbell or Dumbbell Bench Press', 'primary' :  {'chest' : ['Pectoralis Major', 'Pectoralis Minor'] }, 'secondary' : { 'shoulders' : ['Anterior Deltoid'], 'Triceps': ['Long Head'], 'chest' : ['another'] } },
-            { 'name' : 'Decline Barbell or Dumbbell Bench Press', 'primary' :  {'chest' : []}, 'secondary' : [ { 'muscle group' : []} ] },
-            { 'name' : 'Flat Press Machine', 'primary' :  {'chest' : []}, 'secondary' : [ { 'muscle group' : []} ] },
-            { 'name' : 'Incline Press Machine', 'primary' :  {'chest' : []}, 'secondary' : [ { 'muscle group' : []} ] },
-            { 'name' : 'Decline Press Machine', 'primary' :  {'chest' : []}, 'secondary' : [ { 'muscle group' : []} ] },
-            { 'name' : 'Dips', 'primary' :  {'chest' : []}, 'secondary' : [ { 'muscle group' : []} ] },
-            { 'name' : 'Push-Ups', 'primary' :  {'chest' : []}, 'secondary' : [ { 'muscle group' : []} ] },
-            { 'name' : 'Flat Dumbbell Flyes', 'primary' :  {'chest' : []}, 'secondary' : [ { 'muscle group' : []} ] },
-            { 'name' : 'Incline Dumbbell Flyes', 'primary' :  {'chest' : []}, 'secondary' : [ { 'muscle group' : []} ] },
-            { 'name' : 'Decline Dumbbell Flyes', 'primary' :  {'chest' : []}, 'secondary' : [ { 'muscle group' : []} ] },
-            { 'name' : 'Pec Deck Machine', 'primary' :  {'chest' : []}, 'secondary' : [ { 'muscle group' : []} ] },
-            { 'name' : 'Cable Crossovers/Cable Flyes', 'primary' :  {'chest' : []}, 'secondary' : [ { 'muscle group' : []} ]}
-        ]
+        { 
+            'name' : 'Incline Barbell or Dumbbell Bench Press', 
+            'primaryFocus' :  {
+                'chest' : [muscleGroups.chest.muscles[0]] 
+            }, 
+            'primary' :  {
+                'chest' : [muscleGroups.chest[1], muscleGroups.chest.muscles[2]] 
+            }, 
+            'secondary' : { 
+                'shoulder' : [muscleGroups.shoulder.muscles[0]], 'tricep': [muscleGroups.tricep.muscles[0], muscleGroups.tricep.muscles[2]], 'chest' : ['Pectoralis Major'] 
+            } 
+        },
+        { 'name' : 'Decline Barbell or Dumbbell Bench Press', 'primaryFocus' :  {'chest' : []}, 'primary' :  {'chest' : ['Pectoralis Major', 'Pectoralis Minor'] }, 'secondary' : [ { 'muscle group' : []} ] },
+        { 'name' : 'Flat Press Machine', 'primaryFocus' :  {'chest' : []}, 'primary' :  {'chest' : ['Pectoralis Major', 'Pectoralis Minor'] }, 'secondary' : [ { 'muscle group' : []} ] },
+        { 'name' : 'Incline Press Machine', 'primaryFocus' :  {'chest' : []}, 'primary' :  {'chest' : ['Pectoralis Major', 'Pectoralis Minor'] }, 'secondary' : [ { 'muscle group' : []} ] },
+        { 'name' : 'Decline Press Machine', 'primaryFocus' :  {'chest' : []}, 'primary' :  {'chest' : ['Pectoralis Major', 'Pectoralis Minor'] }, 'secondary' : [ { 'muscle group' : []} ] },
+        { 'name' : 'Dips', 'primaryFocus' :  {'chest' : []}, 'primary' :  {'chest' : ['Pectoralis Major', 'Pectoralis Minor'] }, 'secondary' : [ { 'muscle group' : []} ] },
+        { 'name' : 'Push-Ups', 'primaryFocus' :  {'chest' : []}, 'primary' :  {'chest' : ['Pectoralis Major', 'Pectoralis Minor'] }, 'secondary' : [ { 'muscle group' : []} ] },
+        { 'name' : 'Flat Dumbbell Flyes', 'primaryFocus' :  {'chest' : []}, 'primary' :  {'chest' : ['Pectoralis Major', 'Pectoralis Minor'] }, 'secondary' : [ { 'muscle group' : []} ] },
+        { 'name' : 'Incline Dumbbell Flyes', 'primaryFocus' :  {'chest' : []}, 'primary' :  {'chest' : ['Pectoralis Major', 'Pectoralis Minor'] }, 'secondary' : [ { 'muscle group' : []} ] },
+        { 'name' : 'Decline Dumbbell Flyes', 'primaryFocus' :  {'chest' : []}, 'primary' :  {'chest' : ['Pectoralis Major', 'Pectoralis Minor'] }, 'secondary' : [ { 'muscle group' : []} ] },
+        { 'name' : 'Pec Deck Machine', 'primaryFocus' :  {'chest' : []}, 'primary' :  {'chest' : ['Pectoralis Major', 'Pectoralis Minor'] }, 'secondary' : [ { 'muscle group' : []} ] },
+        { 'name' : 'Cable Crossovers/Cable Flyes', 'primaryFocus' :  {'chest' : []}, 'primary' :  {'chest' : ['Pectoralis Major', 'Pectoralis Minor'] }, 'secondary' : [ { 'muscle group' : []} ]},
+        { 
+            'name' : 'Lat Pull-Downs', 
+            'primaryFocus' :  {
+                'back' : [muscleGroups.back.muscles[3], muscleGroups.back.muscles[5]]
+            }, 
+            'primary' :  { }, 
+            'secondary' : { 
+                'back' : [ muscleGroups.back.muscles[1], muscleGroups.back.muscles[2] ],
+            } 
+        },
+        { 
+            'name' : 'Squat', 
+            'primaryFocus' :  {
+                'quad' : [muscleGroups.quad.muscles[0], muscleGroups.quad.muscles[1], muscleGroups.quad.muscles[2], muscleGroups.quad.muscles[3]],
+                'glutes' : [muscleGroups.glutes[0], muscleGroups.glutes[1]]
+            }, 
+            'primary' :  { 
+                'hamstring' : [muscleGroups.hamstring.muscles[0],muscleGroups.hamstring.muscles[1],muscleGroups.hamstring.muscles[2]]
+            }, 
+            'secondary' : { 
+                'back' : [muscleGroups.back.muscles[1], muscleGroups.back.muscles[2]],
+                'calf' : [ muscleGroups.calf.muscles[0], muscleGroups.calf.muscles[1], muscleGroups.calf.muscles[2] ]
+            } 
+        },
+        { 
+            'name' : 'Concentrated Curl', 
+            'primaryFocus' :  {
+                'bicep' : [muscleGroups.bicep.muscles[0], muscleGroups.bicep.muscles[1], muscleGroups.bicep.muscles[2]],
+            }, 
+            'primary' :  { }, 
+            'secondary' : { } 
+        },
+    ]
 
     function getAllExercises(){
         
@@ -53,7 +98,5 @@ app.factory('ExerciseFactory', function() {
 
     }
 
-
-    
     return exercises;
-})
+}])
