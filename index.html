@@ -2,32 +2,30 @@
 <html ng-app="jankyFitness">
 
     <head>
-        <title>Full Body Workout Assessment</title>
+        <title>Janky Fitness App</title>
+
+        <!-- JQuery -->
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 
         <!-- Angular Scripts -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.2/angular.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.2/angular-route.min.js"></script>
-
-        <!-- Custom Angular Scripts -->
-        <script src="js/exerciseFactory.js"></script>
-        <script src="js/muscleFactory.js"></script>
-        <script src="js/controller.js"></script>
-        <script src="js/core.js"></script>
-
-        <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-        <!-- JQuery -->
-        <script src="http://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E=" crossorigin="anonymous"></script>
-
-        <!-- Latest compiled and minified JavaScript -->
+ 
+        <!-- Bootstrap -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
         <!-- Font Awesome -->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
 
         <!-- Custom CSS -->
         <link rel="stylesheet" href="css/style.css">
+
+        <!-- Custom AngularJS Scripts -->
+        <script src="js/exerciseFactory.js"></script>
+        <script src="js/muscleFactory.js"></script>
+        <script src="js/controller.js"></script>
+        <script src="js/core.js"></script>
     </head>
 
     <body ng-controller="mycontroller">
@@ -35,6 +33,23 @@
         <div style="float:left; width : 100%">
             <div style="float:left; width : 33%">
                 <h1>Exercises</h1>
+
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Filter By Muscle Group<span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li><a ng-click="filterExercises('all')"> &nbsp;</a></li>
+                        <li><a ng-click="filterExercises('chest')">Chest</a></li>
+                        <li><a ng-click="filterExercises('back')">Back</a></li>
+                        <li><a ng-click="filterExercises('shoulder')">Shoulders</a></li>
+                        <li><a ng-click="filterExercises('bicep')">Biceps</a></li>
+                        <li><a ng-click="filterExercises('tricep')">Triceps</a></li>
+                        <li><a ng-click="filterExercises('forearm')">Forearms</a></li>
+                        <li><a ng-click="filterExercises('quad')">Quads</a></li>
+                        <li><a ng-click="filterExercises('hamstring')">Hamstrings</a></li>
+                        <li><a ng-click="filterExercises('calf')">Calves</a></li>
+                    </ul>
+                </div>
+
                 <div><input class="form-control" type="text" ng-model="dah"></div>
                 <ul>
                     <li ng-repeat="exercise in viewExercises | filter : dah"><span ng-click="addExercise(exercise)"> {{ exercise.name }} </span></li>
@@ -92,43 +107,58 @@
                                 {{ exercise.name }} 
                             </th>
                             <!-- Chest -->
-                            <td bs-popover>
-                                <button ng-repeat="muscle in musclesGroups.chest.muscles" class="button" ng-class="getClass(exercise, 'chest', muscle)" data-toggle="tooltip" title="{{ muscle }}"></button>
-                                <!-- <div class="cardBody"><a href="#" rel="popover" id="pop{{country.id}}" class="btn btn-primary" data-content="This is the <b>body</b> of Popover" data-original-title="Creativity Tuts">pop</a></div> -->
+                            <td>
+                                <div style="float: left; text-align: center" ng-repeat="muscle in musclesGroups.chest.muscles" id={{muscle.path}} bs-popover>
+                                    <button class="button" rel="popover" data-img="{{muscle.path}}" data-original-title="{{muscle.name}}" ng-class="getClass(exercise, 'chest', muscle.name)"></button>
+                                </div>
                             </td>
                             <!-- Back -->
                             <td>
-                                <button ng-repeat="muscle in musclesGroups.back.muscles" class="button" ng-class= "getClass(exercise, 'back', muscle)" data-toggle="tooltip" title="{{ muscle }}"></button>
+                                <div style="float: left; text-align: center" ng-repeat="muscle in musclesGroups.back.muscles" id={{muscle.path}} bs-popover>
+                                    <button class="button" rel="popover" data-img="{{muscle.path}}" data-original-title="{{muscle.name}}" ng-class="getClass(exercise, 'back', muscle.name)"></button>
+                                </div>
                             </td>
 
                             <!-- Shoulders -->
                             <td>
-                                <button ng-repeat="muscle in musclesGroups.shoulder.muscles" class="button" ng-class= "getClass(exercise, 'shoulder', muscle)" data-toggle="tooltip" title="{{ muscle }}"></button>
+                                <div style="float: left; text-align: center" ng-repeat="muscle in musclesGroups.shoulder.muscles" id={{muscle.path}} bs-popover>
+                                    <button class="button" rel="popover" data-img="{{muscle.path}}" data-original-title="{{muscle.name}}" ng-class= "getClass(exercise, 'shoulder', muscle.name)" data-toggle="tooltip" title="{{ muscle }}"></button>
+                                </div>
                             </td>
 
                             <!-- Biceps -->
                             <td>                            
-                                <button ng-repeat="muscle in musclesGroups.bicep.muscles" class="button" ng-class= "getClass(exercise, 'bicep', muscle)" data-toggle="tooltip" title="{{ muscle }}"></button>
+                                <div style="float: left; text-align: center" ng-repeat="muscle in musclesGroups.bicep.muscles" id={{muscle.path}} bs-popover>
+                                    <button class="button" rel="popover" data-img="{{muscle.path}}" data-original-title="{{muscle.name}}" ng-class= "getClass(exercise, 'bicep', muscle.name)" data-toggle="tooltip" title="{{ muscle }}"></button>
+                                </div>
                             </td>
 
                             <!-- Triceps -->
                             <td>
-                                <button ng-repeat="muscle in musclesGroups.tricep.muscles" class="button" ng-class= "getClass(exercise, 'tricep', muscle)" data-toggle="tooltip" title="{{ muscle }}"></button>
+                                <div style="float: left; text-align: center" ng-repeat="muscle in musclesGroups.tricep.muscles" id={{muscle.path}} bs-popover>
+                                    <button class="button" rel="popover" data-img="{{muscle.path}}" data-original-title="{{muscle.name}}" ng-class= "getClass(exercise, 'tricep', muscle.name)" data-toggle="tooltip" title="{{ muscle }}"></button>
+                                </div>
                             </td>
 
                             <!-- Quads -->
                             <td>                            
-                                <button ng-repeat="muscle in musclesGroups.quad.muscles" class="button" ng-class= "getClass(exercise, 'quad', muscle)" data-toggle="tooltip" title="{{ muscle }}"></button>
+                                <div style="float: left; text-align: center" ng-repeat="muscle in musclesGroups.quad.muscles" id={{muscle.path}} bs-popover>
+                                    <button class="button" rel="popover" data-img="{{muscle.path}}" data-original-title="{{muscle.name}}" ng-class= "getClass(exercise, 'quad', muscle.name)" data-toggle="tooltip" title="{{ muscle }}"></button>
+                                </div>
                             </td>
 
                             <!-- Hamstrings -->
                             <td>                             
-                                <button ng-repeat="muscle in musclesGroups.hamstring.muscles" class="button" ng-class= "getClass(exercise, 'hamstring', muscle)" data-toggle="tooltip" title="{{ muscle }}"></button>
+                                <div style="float: left; text-align: center" ng-repeat="muscle in musclesGroups.hamstring.muscles" id={{muscle.path}} bs-popover>
+                                    <button class="button"rel="popover" data-img="{{muscle.path}}" data-original-title="{{muscle.name}}" ng-class="getClass(exercise, 'hamstring', muscle.name)" data-toggle="tooltip" title="{{ muscle }}"></button>
+                                </div>
                             </td>
 
                             <!-- Calves -->
                             <td >                            
-                                <button ng-repeat="muscle in musclesGroups.calf.muscles" class="button" ng-class= "getClass(exercise, 'calf', muscle)" data-toggle="tooltip" title="{{ muscle }}"></button>
+                                <div style="float: left; text-align: center" ng-repeat="muscle in musclesGroups.calf.muscles" id={{muscle.path}} bs-popover>
+                                    <button class="button" rel="popover" data-img="{{muscle.path}}" data-original-title="{{muscle.name}}" ng-class="getClass(exercise, 'calf', muscle.name)" data-toggle="tooltip" title="{{ muscle }}"></button>
+                                </div>
                             </td>
                         </tr>
                     </tbody>
@@ -155,14 +185,5 @@
                 </div>
             </div>
         </div>
-
-        <!-- <a href="javascript:void(0)" data-popover title="My first popover!" data-content="This is a little message, little">consectetur</a> -->
-
-        <script>
-            $(function () {
-                $('[data-toggle]').tooltip()
-                $('[data-popover]').popover()
-            })
-        </script>
     </body>
 </html>

@@ -3,7 +3,7 @@ var app = angular.module("myWorkOutApp", []);
 app.controller('mycontroller', ['$scope', 'MuscleFactory', 'ExerciseFactory', function($scope, MuscleFactory, ExerciseFactory) {
 
     $scope.musclesGroups = MuscleFactory;
-    $scope.viewExercises = ExerciseFactory;
+    $scope.viewExercises = ExerciseFactory.getAllExercises();
     $scope.newWorkout = [];
     $scope.workoutDetails = $scope.newWorkout;
     $scope.savedWorkouts = [];
@@ -56,27 +56,39 @@ app.controller('mycontroller', ['$scope', 'MuscleFactory', 'ExerciseFactory', fu
     $scope.getClass = function (exercise, muscleGroup, musclePart) {
 
         if(exercise.primaryFocus.hasOwnProperty(muscleGroup)) {
-            if(exercise.primaryFocus[muscleGroup].includes(musclePart)) {
+            if(exercise.primaryFocus[muscleGroup].filter(e => e.name === musclePart).length > 0) {
                 return 'primary-focus';
             }
         }
         
         if(exercise.primary.hasOwnProperty(muscleGroup)) {
-            if(exercise.primary[muscleGroup].includes(musclePart)) {
+            if(exercise.primary[muscleGroup].filter(e => e.name === musclePart).length > 0) {
                 return 'primary';
             }
         }
 
         if(exercise.secondary.hasOwnProperty(muscleGroup)) {
-            if(exercise.secondary[muscleGroup].includes(musclePart)) {
+            if(exercise.secondary[muscleGroup].filter(e => e.name === musclePart).length > 0) {
                 return 'secondary';
             }
         }
     }
+
+    $scope.filterExercises = function(muscleGroup) {
+        $scope.viewExercises = ExerciseFactory.getFocusExercises(muscleGroup)
+    }
 }]);
     
-// app.directive('bsPopover', function() {
-//     return function(scope, element, attrs) {
-//         element.find("a[rel=popover]").popover({ placement: 'top', html: 'true'});
-//     };
-// });
+app.directive('bsPopover', function() {
+
+    return function(scope, element, attrs) {
+        var thing = element.find("button[rel=popover]").data('img')
+        console.log(thing);
+        element.find("button[rel=popover]").popover({ 
+            placement: 'top',
+            trigger: 'hover',
+            html: 'true',
+            content : function(){return '<img class="muscle-image" src="'+ attrs.id + '" />';}, 
+        });
+    };
+});

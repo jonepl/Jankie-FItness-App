@@ -1,8 +1,20 @@
 var app = angular.module("exerciseModule", []);
 
 app.factory('ExerciseFactory', ['MuscleFactory', function(MuscleFactory) {
-    console.log(MuscleFactory)
+
+    var ExerciseFactory = {}
     var muscleGroups = MuscleFactory;
+    var chestExercises = [];
+    var backExercises = [];
+    var shoulderExercises = [];
+    var abExercises = [];
+    var bicepExercises = [];
+    var tricepExercises = [];
+    var forearmExercises = [];
+    var quadExercises = [];
+    var hamstringExercises = [];
+    var calfExercises = [];
+    
     // Update to primary, secondary, tertiary Muscles
     var exercises = [
         { 
@@ -11,7 +23,7 @@ app.factory('ExerciseFactory', ['MuscleFactory', function(MuscleFactory) {
                 'chest' : [muscleGroups.chest.muscles[0]] 
             }, 
             'primary' :  {
-                'chest' : [muscleGroups.chest[1], muscleGroups.chest.muscles[2]] 
+                'chest' : [muscleGroups.chest.muscles[1], muscleGroups.chest.muscles[2]] 
             }, 
             'secondary' : { 
                 'shoulder' : [muscleGroups.shoulder.muscles[0]], 'tricep': [muscleGroups.tricep.muscles[0], muscleGroups.tricep.muscles[2]], 'chest' : ['Pectoralis Major'] 
@@ -62,41 +74,36 @@ app.factory('ExerciseFactory', ['MuscleFactory', function(MuscleFactory) {
         },
     ]
 
-    function getAllExercises(){
-        
-    }
-
-    function getChestExercises() {
-
-    }
-
-    function getShouldersExercises() {
-
-    }
-
-    function getBackExercises() {
-
-    }
-
-    function getBicepExercises() {
+    var exerciseGroups = {
+        'all' : exercises,
+        "chest" : chestExercises,
+        "back" : backExercises,
+        "shoulder" : shoulderExercises,
+        "ab" : abExercises,
+        "bicep" : bicepExercises,
+        "tricep" : tricepExercises,
+        "forearm" : forearmExercises,
+        "quad" : quadExercises,
+        "hamstring" : hamstringExercises,
+        "calf" : calfExercises,
 
     }
-
-    function getTricepExercises() {
-
+    
+    ExerciseFactory.getAllExercises = function getAllExercises(){
+        return exercises;
     }
 
-    function getQuadExercises() {
+    ExerciseFactory.getFocusExercises = function getFocusExercises(muscleGroup){
 
+        if(exerciseGroups[muscleGroup].length == 0) {
+            for (let i = 0; i < exercises.length; i++) {
+                if(muscleGroup in exercises[i].primaryFocus || muscleGroup in exercises[i].primary) {
+                    exerciseGroups[muscleGroup].push(exercises[i]);
+                }   
+            }
+        }
+        return exerciseGroups[muscleGroup];
     }
 
-    function getHamstringExercises() {
-
-    }
-
-    function getCalfExercises() {
-
-    }
-
-    return exercises;
+    return ExerciseFactory;
 }])

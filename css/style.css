@@ -17,6 +17,10 @@
     background-color : #ffff00;
 }
 
+.muscle-image {
+    max-height: 200px;
+}
+
 /* Bootstrap Override */
 th {
     text-align: inherit;
