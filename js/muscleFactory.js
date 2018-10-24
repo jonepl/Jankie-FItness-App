@@ -39,7 +39,7 @@ app.factory('MuscleFactory', function() {
                 "body" : "This is abdominal rule of thumb",
             }
         },
-        "shoulder" : { "muscles" :[ {"name" : "Anterior Deltoid", "path" : "./img/chest-clav.jpeg"}, {"name" : "Mid Deltoid", "path" : "./img/chest-clav.jpeg"}, {"name" : "Posterior Deltoid", "path" : "./img/chest-clav.jpeg"}],
+        "shoulder" : { "muscles" :[ {"name" : "Anterior Deltoid", "path" : "./img/ant-delt.jpg"}, {"name" : "Mid Deltoid", "path" : "./img/med-delt.jpg"}, {"name" : "Posterior Deltoid", "path" : "./img/chest-clav.jpeg"}],
         "details" : {
             "group" : "shoulder",    
             "title" : "",
@@ -84,51 +84,5 @@ app.factory('MuscleFactory', function() {
         }
     }
 
-    // var muscles = {
-    //     "obliques" : "core", 
-    //     "upper abdomen" : "core", 
-    //     "lower abdomen" : "core",
-
-    //     "Upper Trapezius" : "back", 
-    //     "Latissimus dorsi" : "back", 
-    //     "Teres minor" : "back", 
-    //     "Teres major" : "back", 
-    //     "Infraspinatus" : "back", 
-    //     "Super spanaius" : "back", 
-    //     "Infer spanaius" : "back", 
-    //     "Rhomboid" : "back", 
-    //     "Lower back" : "back",
-        
-    //     "Pectoralis Major Calviular Head" : 'chest',
-    //     "Pectoralis Major Sternocostal Head" : 'chest',
-    //     "Pectoralis Major Abdonimal Head" : 'chest',
-    //     "Pectoralis Minor" : 'chest',
-
-    //     "Biceps Brachii - Short Head" : "biceps",
-    //     "Biceps Brachii - Long Head" : "biceps",
-
-    //     "Gastrocnemius medial" : "calves",
-    //     "Gastrocnemius lateral" : "calves",
-    //     "soleus" : "calves",
-
-    //     "gluteus maximus glutes" : "glutes", 
-    //     "medius gluteus minimus" : "glutes", 
-    //     "Tensor fasciae latae muscle" : "glutes",
-    //     "Long Head" : "triceps", 
-    //     "Lateral head" : "triceps", 
-    //     "Medial head" : "triceps",
-
-    //     "Anterior Deltoid" : "shoulders", 
-    //     "Mid Deltoid" : "shoulders", 
-    //     "Posterior Deltoid" : "shoulders",
-
-    //     "Semitendinosus" : "hamstrings", 
-    //     "Semimembranosus" : "hamstrings", 
-    //     "Biceps femoris" : "hamstrings",
-    //     "Rectus Femoris" : "quads", 
-    //     "Vastus Lateralis" : "quads", 
-    //     "Vastus Intermedius" : "quads", 
-    //     "Vastus Medialis" : "quads",
-    // }
     return muscles;
 })

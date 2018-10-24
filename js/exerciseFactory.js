@@ -19,17 +19,19 @@ app.factory('ExerciseFactory', ['MuscleFactory', function(MuscleFactory) {
     var exercises = [
         { 
             'name' : 'Incline Barbell or Dumbbell Bench Press', 
-            'primaryFocus' :  {
-                'chest' : [muscleGroups.chest.muscles[0]] 
+            'primaryFocus' : {
+                'chest' : [muscleGroups.chest.muscles[0], muscleGroups.chest.muscles[1]],
+                'shoulder' : [muscleGroups.shoulder.muscles[0]]
             }, 
             'primary' :  {
                 'chest' : [muscleGroups.chest.muscles[1], muscleGroups.chest.muscles[2]] 
             }, 
             'secondary' : { 
-                'shoulder' : [muscleGroups.shoulder.muscles[0]], 'tricep': [muscleGroups.tricep.muscles[0], muscleGroups.tricep.muscles[2]], 'chest' : ['Pectoralis Major'] 
+                'shoulder' : [muscleGroups.shoulder.muscles[0]], 
+                'tricep': [muscleGroups.tricep.muscles[0], muscleGroups.tricep.muscles[2]] 
             } 
         },
-        { 'name' : 'Decline Barbell or Dumbbell Bench Press', 'primaryFocus' :  {'chest' : []}, 'primary' :  {'chest' : ['Pectoralis Major', 'Pectoralis Minor'] }, 'secondary' : [ { 'muscle group' : []} ] },
+        { 'name' : 'Decline Barbell or Dumbbell Bench Press', 'primaryFocus' :  {'chest' : [ muscleGroups.chest.muscles[1],  muscleGroups.chest.muscles[2], muscleGroups.shoulder.muscles[0], muscleGroups.tricep.muscles[0], muscleGroups.tricep.muscles[1], muscleGroups.tricep.muscles[2]] }, 'primary' :  {'chest' : [ muscleGroups.chest.muscles[1], 'Pectoralis Minor'] }, 'secondary' : [ { 'muscle group' : []} ] },
         { 'name' : 'Flat Press Machine', 'primaryFocus' :  {'chest' : []}, 'primary' :  {'chest' : ['Pectoralis Major', 'Pectoralis Minor'] }, 'secondary' : [ { 'muscle group' : []} ] },
         { 'name' : 'Incline Press Machine', 'primaryFocus' :  {'chest' : []}, 'primary' :  {'chest' : ['Pectoralis Major', 'Pectoralis Minor'] }, 'secondary' : [ { 'muscle group' : []} ] },
         { 'name' : 'Decline Press Machine', 'primaryFocus' :  {'chest' : []}, 'primary' :  {'chest' : ['Pectoralis Major', 'Pectoralis Minor'] }, 'secondary' : [ { 'muscle group' : []} ] },
